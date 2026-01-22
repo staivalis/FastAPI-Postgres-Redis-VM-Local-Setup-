@@ -230,5 +230,5 @@ Expected behavior:
 
 ## License
 
-MIT (or choose your own)
+MIT
 
