@@ -3,15 +3,15 @@ services:
     image: postgres:16
     container_name: fastapi_postgres
     environment:
-      POSTGRES_USER: app
-      POSTGRES_PASSWORD: app_pw
-      POSTGRES_DB: app_db
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-app_pw}
+      POSTGRES_DB: ${POSTGRES_DB:-app_db}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U app -d app_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-app} -d ${POSTGRES_DB:-app_db}"]
       interval: 5s
       timeout: 3s
       retries: 10
@@ -20,7 +20,7 @@ services:
     image: redis:7
     container_name: fastapi_redis
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
       - redis_data:/data
